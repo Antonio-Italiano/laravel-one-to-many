@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Type;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -29,7 +30,8 @@ class ProjectController extends Controller
     public function create()
     {
         $project = new Project();
-        return view('admin.projects.create', compact('project'));
+        $types = Type::orderBy('label')->get();
+        return view('admin.projects.create', compact('project', 'types'));
     }
 
     /**
@@ -43,12 +45,14 @@ class ProjectController extends Controller
             'description' => 'required|string',
             'imag' => 'nullable|image|mimes:jpeg,jpg,png',
             'url' => 'nullable|url',
+            'type_id' => 'nullable|exist:types,id'
         ], [
             'title.required' => 'The title is mandatory',
             'title.unique' => "The name $request->title is already present",
             'title.max' => 'Exceeded the maximum number of characters :max',
             'description.required' => 'Description is required',
             'image.mimes' => 'accepted extensions are :mimes',
+            'type_id' => 'categoria non valida'
         ]);
 
         $data = $request->all();
@@ -86,7 +90,8 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('admin.projects.edit', compact('project'));
+        $types = Type::orderBy('label')->get();
+        return view('admin.projects.edit', compact('project', 'types'));
     }
 
     /**
@@ -101,12 +106,14 @@ class ProjectController extends Controller
             'description' => 'required|string',
             'imag' => 'nullable|image|mimes:jpeg,jpg,png',
             'url' => 'nullable|url',
+            'type_id' => 'nullable|exist:types,id'
         ], [
             'title.required' => 'The title is mandatory',
             'title.unique' => "The name $request->title is already present",
             'title.max' => 'Exceeded the maximum number of characters :max',
             'description.required' => 'Description is required',
             'image.mimes' => 'accepted extensions are :mimes',
+            'type_id' => 'categoria non valida'
         ]);
         
         $data = $request->all();

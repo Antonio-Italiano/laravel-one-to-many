@@ -13,6 +13,7 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Title</th>
+              <th scope="col">Type</th>
               <th scope="col">Published</th>
               <th scope="col">Description</th>
               {{-- <th scope="col">Image</th> --}}
@@ -27,6 +28,7 @@
             <tr>
                 <th scope="row">{{$project->id}}</th>
                 <td>{{$project->title}}</td>
+                <td>{{$project->type?->label}}</td>
                 <th>
                     <form action="{{route('admin.projects.toggle', $project->id) }}" method="POST">
                         @method('PATCH')
