@@ -10,4 +10,10 @@ class Project extends Model
     use HasFactory;
 
     protected $fillable = ['title', 'description', 'image', 'slug', 'url', 'is_published'];
+
+    //Assegno la relazione con le tipologie
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
 }
