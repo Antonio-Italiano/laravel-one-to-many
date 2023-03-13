@@ -41,11 +41,13 @@
       <div class="mb-5 w-50">        
         
         <label for="type_id" class="form-label">Type</label>
-        <select class="form-select">
+        <select class="form-select @error('type_id') is-invalid @enderror" name="type_id" id="type_id" >
           <option value="">Nessuna Type</option>
           @foreach($types as $type)
-            <option @if (old('type_id', $project->type_id) == $type->id) selected @endif value="{{$type->id}}">{{ $type->label }}</option>
-            @endforeach
+            <option @if (old('type_id', $project->type_id) == $type->id) selected @endif value="{{ $type->id }}">
+              {{ $type->label }}
+            </option>
+          @endforeach
         </select>
         @error('type_id')
           <div class="invalid-feedback">{{ $message }}</div>

@@ -32,6 +32,7 @@ class ProjectController extends Controller
         $project = new Project();
         $types = Type::orderBy('label')->get();
         return view('admin.projects.create', compact('project', 'types'));
+        dd($types);
     }
 
     /**
@@ -39,13 +40,13 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-
+        // dd($request->all());
         $request->validate([
             'title' => 'required|string|unique:projects|max:100',
             'description' => 'required|string',
             'imag' => 'nullable|image|mimes:jpeg,jpg,png',
             'url' => 'nullable|url',
-            'type_id' => 'nullable|exist:types,id'
+            'type_id' => 'nullable|exists:types,id'
         ], [
             'title.required' => 'The title is mandatory',
             'title.unique' => "The name $request->title is already present",
@@ -90,6 +91,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        // dd($project);
         $types = Type::orderBy('label')->get();
         return view('admin.projects.edit', compact('project', 'types'));
     }
@@ -106,7 +108,7 @@ class ProjectController extends Controller
             'description' => 'required|string',
             'imag' => 'nullable|image|mimes:jpeg,jpg,png',
             'url' => 'nullable|url',
-            'type_id' => 'nullable|exist:types,id'
+            'type_id' => 'nullable|exists:types,id'
         ], [
             'title.required' => 'The title is mandatory',
             'title.unique' => "The name $request->title is already present",
